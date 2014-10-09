@@ -1,0 +1,4 @@
+/*!
+* Lski-ModalJs - 0.5.0
+*/
+!function(e){define&&define.amd?define([],e):(window.lski||(window.lski={})).modal=e()}(function(){function e(e){var t=s(e),i=c.modalShow;t&&(a(t,i)?n(t,i):o(t,i))}function n(e){var n=s(e),o=c.modalShow;n&&(i(n,o),n.dispatchEvent(new Event(c.events.hide)))}function o(e){var o=s(e),i=c.modalShow;o&&(t(o,i),d(o.querySelectorAll(".overlay, [data-dismiss]"),"click",function(){n(o,i)}),o.dispatchEvent(new Event(c.events.show)))}function t(e,n){a(e,n)||(e.className+=" "+c.modalShow)}function i(e,n){e.className=e.className.replace(new RegExp(n,"gi"),"")}function a(e,n){return new RegExp(n,"i").test(e.className)}function s(e){return e instanceof Element?e:document.querySelector(e)}function d(e,n,o){function t(){o.apply(this,arguments),a.removeEventListener(n,t,!1)}for(var i=0;i<e.length;i++){var a=e[i];a.addEventListener(n,t,!1)}}var c={modalShow:"mod-show",events:{show:"mod-show",hide:"mod-hide"}};return{show:o,hide:n,toggle:e}});
