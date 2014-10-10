@@ -1,10 +1,10 @@
 /*!
-* Lski-ModalJs - 0.5.0
+* Lski-ModalJs - 0.6.0
 */
 /*jslint browser: true, white: true */
 /*global define, window */
 
-(function(factory) {
+(function (factory) {
 
 	if (define && define.amd) {
 		define([], factory);
@@ -19,8 +19,8 @@
 	var defaults = {
 		modalShow: 'mod-show',
 		events: {
-			show: 'mod-show',
-			hide: 'mod-hide'
+			show: 'lski-modal-show',
+			hide: 'lski-modal-hide'
 		}
 	};
 
@@ -57,7 +57,7 @@
 		}
 
 		removeClass(ele, className);
-		ele.dispatchEvent(new Event(defaults.events.hide));
+		ele.dispatchEvent(createEvent(defaults.events.hide));
 	}
 
 	function show(element) {
@@ -72,17 +72,17 @@
 		addClass(ele, className);
 
 		// Close by clicking overlay or any items with data-dismiss as an attribute
-		once(ele.querySelectorAll('.overlay, [data-dismiss]'), 'click', function() {
+		once(ele.querySelectorAll('.overlay, [data-dismiss]'), 'click', function () {
 			hide(ele, className);
 		});
 
-		ele.dispatchEvent(new Event(defaults.events.show));
+		ele.dispatchEvent(createEvent(defaults.events.show));
 	}
 
 	function addClass(ele, className) {
 
 		if (!hasClass(ele, className)) {
-			ele.className +=  ' ' + defaults.modalShow;
+			ele.className += ' ' + defaults.modalShow;
 		}
 	}
 
@@ -116,8 +116,29 @@
 			}
 
 			element.addEventListener(event, handler, false);
-		
+
 		}
+	}
+
+	function createEvent(name) {
+
+		if (Event.prototype.constructor) {
+			return new Event(name);
+		}
+		else if (document.createEvent) {
+
+			var event = document.createEvent('Event');
+			event.initEvent(name, true, true);
+
+			return event;
+		}
+		else {
+			var event = document.createEventObject();
+			event.eventName = name;
+
+			return event;
+		}
+
 	}
 
 });
