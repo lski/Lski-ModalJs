@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="../../dist/lski-modal.css"/>
+    
+    <style>
+    
+        /* Style the internal box as desired */
+        .lski-modal-box {
+            background-color: white;
+            padding:20px;
+        }
+    
+    </style>
+    
+    <script src="../../dist/lski-modal.js"></script>
+    
+</head>
+<body>
+
+    <button type="button">Show</button>
+    
+    <div id="myModal" class="lski-modal">
+        <div class="lski-overlay"></div>
+        <div class="lski-modal-box">
+        
+            <p>
+                Place any stuff you want in here
+            </p>
+            
+            <p>
+                <button type="button" data-dismiss>Close Me</button>
+            </p>
+            
+        </div>
+    </div>
+    
+    <script>
+    
+        // show on button click
+        document.querySelectorAll('button')[0].addEventListener('click', function() {
+        
+            // show the modal box
+            lski.modal.show(document.getElementById('myModal'));
+            
+        });
+    
+    </script>
+    
+</body>
+</html>

@@ -1,7 +1,4 @@
-/*!
-* Lski-ModalJs - 0.6.0
-*/
-.mod {
+.lski-modal {
 	visibility: hidden;
 	opacity: 0;
 	position: absolute;
@@ -16,21 +13,21 @@
 	-webkit-transition: opacity .5s ease-in-out;
 }
 
-	.mod.mod-show {
+	.lski-modal.lski-modal-show {
 		visibility: visible;
 		opacity: 1;
 	}
 
-.overlay {
+.lski-overlay {
 	width: 100%;
 	height: 100%;
 	text-align: center;
 	background-color: #808080;
-	opacity: 0.2;
-	filter: alpha(opacity=20);
+	opacity: 0.6;
+	filter: alpha(opacity=60);
 }
 
-.mod-box {
+.lski-modal-box {
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -42,13 +39,15 @@
 	transform: translate(-50%, -60%);
 }
 
-.ie8 .mod-box {
-	overflow: hidden;
-}
-
-.mod.mod-fade {
+.lski-modal.lski-modal-fade {
 	-moz-transition: opacity .25s ease-in-out;
 	-o-transition: opacity .25s ease-in-out;
 	-webkit-transition: opacity .25s ease-in-out;
 	transition: opacity .25s ease-in-out;
 }
+
+/*
+.ie8 .lski-modal-box {
+	overflow: hidden;
+}
+*/

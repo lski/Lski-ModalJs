@@ -1,12 +1,9 @@
-/*!
-* Lski-ModalJs - 0.6.0
-*/
 /*jslint browser: true, white: true */
 /*global define, window */
 
 (function (factory) {
 
-	if (define && define.amd) {
+	if (typeof define === 'function' && define.amd) {
 		define([], factory);
 	}
 	else {
@@ -17,12 +14,13 @@
 (function () {
 
 	var defaults = {
-		modalShow: 'mod-show',
-		events: {
-			show: 'lski-modal-show',
-			hide: 'lski-modal-hide'
-		}
-	};
+            modalShow: 'lski-modal-show',
+            events: {
+                show: 'lski-modal-show',
+                hide: 'lski-modal-hide'
+            }
+        },
+        current = null;
 
 	return {
 		show: show,
@@ -68,11 +66,19 @@
 		if (!ele) {
 			return;
 		}
+        
+        // If there is already a modal box showing, close it first
+        if(current) {
+            hide(current, defaults.modalShow);
+        }
+        
+        // Update the reference
+        current = ele;
 
 		addClass(ele, className);
 
 		// Close by clicking overlay or any items with data-dismiss as an attribute
-		once(ele.querySelectorAll('.overlay, [data-dismiss]'), 'click', function () {
+		once(ele.querySelectorAll('.lski-overlay, [data-dismiss]'), 'click', function () {
 			hide(ele, className);
 		});
 

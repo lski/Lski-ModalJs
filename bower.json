@@ -1,24 +1,11 @@
 {
-  "name": "lski-modal",
-  "version": "0.6.0",
+  "name": "lski-request",
+  "version": "1.0.0",
   "homepage": "https://github.com/lski/lski-modaljs",
-  "authors": [
-    "dev@lski.co.uk <dev@lski.co.uk>"
-  ],
-  "description": "A basic Promise based ajax request helper",
-  "keywords": [
-    "Promise",
-    "ajax",
-    "request",
-    "json"
-  ],
+  "authors": ["dev@lski.co.uk <dev@lski.co.uk>"],
+  "description": "A browser based modal dialog box with overlay",
+  "keywords": ["modal", "browser", "dialog"],
   "license": "MIT",
   "private": true,
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "test",
-    "tests"
-  ]
+  "ignore": ["**/.*", "node_modules", "bower_components", "test", "tests"]
 }
