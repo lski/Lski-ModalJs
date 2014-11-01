@@ -6,7 +6,7 @@ var gulp = require('gulp'),
     del = require('del'),
     minifycss = require('gulp-minify-css'),
     projectName = 'lski-request',
-    versionNo = "1.0.0",
+    versionNo = "1.0.1",
     insertVersionNo = ('/*!\n * ' + projectName + ' - ' + versionNo + '\n*/\n');
 
 gulp.task('clean', function(cb) {
