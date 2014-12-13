@@ -1,6 +1,6 @@
 {
-  "name": "lski-request",
-  "version": "1.0.1",
+  "name": "lski-modal",
+  "version": "1.1.0",
   "description": "A browser based modal dialog box with overlay",
   "main": "src/lski-modal.js",
   "directories": {

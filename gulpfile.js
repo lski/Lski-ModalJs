@@ -5,8 +5,8 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     del = require('del'),
     minifycss = require('gulp-minify-css'),
-    projectName = 'lski-request',
-    versionNo = "1.0.1",
+    projectName = 'lski-modal',
+    versionNo = "1.1.0",
     insertVersionNo = ('/*!\n * ' + projectName + ' - ' + versionNo + '\n*/\n');
 
 gulp.task('clean', function(cb) {
