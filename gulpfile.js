@@ -6,8 +6,8 @@ var gulp = require('gulp'),
     del = require('del'),
     minifycss = require('gulp-minify-css'),
     projectName = 'lski-modal',
-    versionNo = "1.1.0",
-    insertVersionNo = ('/*!\n * ' + projectName + ' - ' + versionNo + '\n*/\n');
+    versionNo = "1.1.1",
+    insertVersionNo = ('/*! ' + projectName + ' - ' + versionNo + ' */\n');
 
 gulp.task('clean', function(cb) {
     del('dist', cb);
@@ -27,8 +27,8 @@ gulp.task('js', function() {
 
     return gulp.src('src/*.js')
         .pipe(concat('lski-modal.js'))
-        .pipe(insert.prepend(insertVersionNo))
         .pipe(uglify({ preserveComments: 'some' }))
+        .pipe(insert.prepend(insertVersionNo))
         .pipe(gulp.dest('dist'));
 });
 

@@ -1,7 +1,7 @@
 .lski-modal {
 	visibility: hidden;
 	opacity: 0;
-	position: absolute;
+	position: fixed;
 	left: 0;
 	top: 0;
 	width: 100%;
