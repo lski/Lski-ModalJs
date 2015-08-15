@@ -163,8 +163,9 @@
 
 		utils.addClass(ele, className);
 
-		// Close by clicking overlay or any items with data-dismiss as an attribute
-		utils.events.once(ele.querySelectorAll('.lski-overlay, [data-dismiss]'), 'click', function () {
+		// Close by clicking or any items with data-dismiss as an attribute
+		// TODO: remove [data-dismiss]
+		utils.events.once(ele.querySelectorAll('[data-modal-dismiss], [data-dismiss]'), 'click', function () {
 			hide(ele, className);
 		});
 
