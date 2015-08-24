@@ -1,7 +1,7 @@
 Lski-Modal
 ============
 
-Creates a centered modal box without and pre-defined styling, beyond the most basic to get it to work. It is built as a standalone item and does NOT require any additional framworks such as jQuery.
+Creates a centered modal box without and pre-defined styling, beyond the most basic to get it to work. It is built as a standalone item and does NOT require any additional framworks.
 
 ## Installation
 
@@ -57,7 +57,7 @@ Below shows how to allow the user to close the modal when they click on the over
 </div>
 ```
 
-Alternatively you can simply attach an event and close the modal in code.
+Alternatively you can close the modal in code.
 
 ```js
 lski.modal.hide('#myModal');
@@ -72,19 +72,19 @@ lski.modal.hide('#myModal');
 - Opera 7+
 - Safari
 
-#### IE8
+#### IE8 and Older Browsers
 
-Its very easy to add support for IE8 as well as IE9+. I have not added it by default to keep the size of the project down especially as support for IE8 is now much lower. There are two things you need to be aware of.
+Its very easy to add support for IE8 as well as IE9+, including other older browsers too. Although I have not added it by default to keep the size of the project down especially as support for these older browsers is now much lower. There are simply two things you need to implement to get it to work. First implement EventListeners via a shim and second handle the centralised location of the modal dialog.
 
-Required
+EventListeners
 
-lski-modal requires the following methods are present to enable dismissing the dialog `addEventListener`, `removeEventListener` and `dispatchEvent` that are not in IE8 natively. However there are several shims available to reproduce them, including this shim: [addEventListener-shim](https://gist.github.com/lski/39c59b03a60e31541cda) on GitHub, I have added shim for these three methods as well.
+The dialog uses `addEventListener`, `removeEventListener` and `dispatchEvent` that are not in IE8 natively. There are several shims available to implement them, including one I have included on github: [addEventListener-shim](https://gist.github.com/lski/39c59b03a60e31541cda)
 
-Optional
+Centralised Modal Box
 
-IE8 does not support CSS tranforms, which are used to centre where the modal box is when it is displayed. There are several possible solutions to this. Below are two ways of doing it, choose the one that best suits your circumstance.
+The modal box is centralised via CSS transforms, which are not available in IE8, below are two solutions pick one which suits your needs best. __Note__: Its best to only apply these to ONLY IE8 browsers, a great techinque of this is [Paul Irish's](http://www.paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/) suggestion.
 
-__Note__: Its best to only apply these to IE8 browsers, a good techinque of this is [Paul Irish's](http://www.paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/) suggestion.
+Option 1:
 
 Add additional styles to the `lski-modal-box` class by setting a specific width and height and then use negative margins to reposition the box:
 
@@ -97,7 +97,7 @@ Add additional styles to the `lski-modal-box` class by setting a specific width 
 	overflow:scroll;
 }
 ```
-OR
+Option 2:
 
 Add an additional div inside the `lski-modal-box` e.g. `lski-modal-content` and added the following extra styles:
 
@@ -105,13 +105,13 @@ Add an additional div inside the `lski-modal-box` e.g. `lski-modal-content` and 
 .lski-modal {
 	display: table;
 	display: table-cell;
-    vertical-align: middle;
+	vertical-align: middle;
 }
 
 .lski-modal-box {
 	display:table-cell;
 	vertical-align: middle;
-  	text-align:center;
+	text-align:center;
 }
 
 .lski-modal-content {
