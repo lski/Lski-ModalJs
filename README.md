@@ -5,7 +5,13 @@ Creates a centered modal box without and pre-defined styling, beyond the most ba
 
 ## Installation
 
+You can either download the dist/lski-modal.js and dist/lski-modal.css files directly or you can use a package manager.
+
+```
+npm install github:lski/lski-modal --save
+// or
 bower install https://github.com/lski/lski-modal.git --save
+```
 
 ## Usage
 
@@ -72,19 +78,19 @@ lski.modal.hide('#myModal');
 - Opera 7+
 - Safari
 
-#### IE8 and Older Browsers
+### IE8 and Older Browsers
 
-Its very easy to add support for IE8 as well as IE9+, including other older browsers too. Although I have not added it by default to keep the size of the project down especially as support for these older browsers is now much lower. There are simply two things you need to implement to get it to work. First implement EventListeners via a shim and second handle the centralised location of the modal dialog.
+Its very easy to add support for IE8. Although I have not added it by default to keep the size of the project down especially as support for these older browsers is now much lower. There are simply two things you need to implement to get it to work. First implement EventListeners via a shim and second handle the centralised location of the modal dialog.
 
-EventListeners
+#### EventListeners
 
 The dialog uses `addEventListener`, `removeEventListener` and `dispatchEvent` that are not in IE8 natively. There are several shims available to implement them, including one I have included on github: [addEventListener-shim](https://gist.github.com/lski/39c59b03a60e31541cda)
 
-Centralised Modal Box
+#### Centralised Modal Box
 
 The modal box is centralised via CSS transforms, which are not available in IE8, below are two solutions pick one which suits your needs best. __Note__: Its best to only apply these to ONLY IE8 browsers, a great techinque of this is [Paul Irish's](http://www.paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/) suggestion.
 
-Option 1:
+##### Option 1:
 
 Add additional styles to the `lski-modal-box` class by setting a specific width and height and then use negative margins to reposition the box:
 
@@ -97,7 +103,7 @@ Add additional styles to the `lski-modal-box` class by setting a specific width 
 	overflow:scroll;
 }
 ```
-Option 2:
+##### Option 2:
 
 Add an additional div inside the `lski-modal-box` e.g. `lski-modal-content` and added the following extra styles:
 
