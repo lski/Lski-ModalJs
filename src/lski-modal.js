@@ -1,7 +1,7 @@
 /*jslint browser: true, white: true */
 /*global define, window */
 
-(function (factory) {
+(function(factory) {
 
 	if (typeof define === 'function' && define.amd) {
 		define([], factory);
@@ -11,182 +11,207 @@
 	}
 
 })
-(function () {
+	(function() {
 
-	var defaults = {
-            modalShow: 'lski-modal-show',
+		var defaults = {
+            classForShowingModal: 'lski-modal-show',
             events: {
-                show: 'lski-modal-show',
+				opened: 'lski-modal-opened',
+				closed: 'lski-modal-closed',
+				// TODO: depreciate ambigous event names
+				show: 'lski-modal-show',
                 hide: 'lski-modal-hide'
             }
         },
-        current = null;
+			current = null;
 
-	var utils = {
-		offset: function (el) {
+		var utils = {
+			offset: function(el) {
 
-			var rect = el.getBoundingClientRect();
+				var rect = el.getBoundingClientRect();
 
-			return {
-				top: rect.top + document.body.scrollTop,
-				left: rect.left + document.body.scrollLeft
-			};
-		},
-		addClass: function (ele, className) {
-
-			if (ele.classList) {
-				ele.classList.add(className);
-			}
-			else if (!this.hasClass(ele, className)) {
-				ele.className += ' ' + className;
-			}
-		},
-		removeClass: function (ele, className) {
-
-			if (ele.classList) {
-				ele.classList.remove(className);
-			}
-			else {
-				ele.className = ele.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-			}
-		},
-		hasClass: function (ele, className) {
-
-			if (ele.classList) {
-				return ele.classList.contains(className);
-			}
-			else {
-				return new RegExp('(^| )' + className + '( |$)', 'gi').test(ele.className);
-			}
-		},
-		events: {
-			on: function (element, event, handler) {
-
-				element.addEventListener(event, handler, false);
+				return {
+					top: rect.top + document.body.scrollTop,
+					left: rect.left + document.body.scrollLeft
+				};
 			},
-			once: function (elements, event, handler) {
+			classes: (function() {
 
-				for (var i = 0; i < elements.length; i++) {
+				var result = {};
 
-					var element = elements[i];
+				if ("classList" in document.createElement("_")) {
 
-					function wrapper() {
-						handler.apply(this, arguments);
-						utils.events.off(element, event, wrapper);
-					}
+					result.add = function(ele, classname) {
+						ele.classList.add(classname);
+					};
 
-					utils.events.on(element, event, wrapper);
-				}
-			},
-			off: function (element, event, handler) {
+					result.remove = function(ele, className) {
+						ele.classList.remove(className);
+					};
 
-				element.removeEventListener(event, handler, false);
-			},
-			trigger: function (element, event) {
-
-				element.dispatchEvent(typeof event === 'string' ? utils.events.create(event) : event);
-			},
-			create: function (name) {
-
-				if (Event.prototype.constructor) {
-					return new Event(name);
-				}
-				else if (document.createEvent) {
-
-					var event = document.createEvent('Event');
-					event.initEvent(name, true, true);
-					return event;
+					result.has = function(ele, className) {
+						return ele.classList.contains(className);
+					};
 				}
 				else {
-					var event = document.createEventObject();
-					event.eventName = name;
-					return event;
+
+					result.add = function(ele, classname) {
+						if (!this.hasClass(ele, classname)) {
+							ele.className += ' ' + classname;
+						}
+					};
+
+					result.remove = function(ele, className) {
+						ele.className = ele.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+					};
+
+					result.has = function(ele, className) {
+						return new RegExp('(^| )' + className + '( |$)', 'gi').test(ele.className);
+					};
 				}
 
+				return result;
+
+			})(),
+			events: {
+				on: function(element, event, handler) {
+
+					element.addEventListener(event, handler, false);
+				},
+				once: function(elements, event, handler) {
+
+					for (var i = 0; i < elements.length; i++) {
+
+						var element = elements[i];
+
+						function wrapper() {
+							handler.apply(this, arguments);
+							utils.events.off(element, event, wrapper);
+						}
+
+						utils.events.on(element, event, wrapper);
+					}
+				},
+				off: function(element, event, handler) {
+
+					element.removeEventListener(event, handler, false);
+				},
+				trigger: function(element, event) {
+
+					element.dispatchEvent(typeof event === 'string' ? utils.events.create(event) : event);
+				},
+				create: (function() {
+
+					if (typeof window.CustomEvent === "function") {
+
+						return function(name) {
+							return new CustomEvent(name, { bubbles: true, cancelable: true });
+						};
+					}
+					else if (document.createEvent) {
+
+						return function(name) {
+
+							var event = document.createEvent('Event');
+							event.initEvent(name, true, true);
+							return event;
+						};
+					}
+					else {
+
+						return function(name) {
+
+							var event = document.createEventObject();
+							event.type = name;
+							return event;
+						};
+					}
+
+				})()
+			}
+		};
+
+		return {
+			show: show,
+			hide: hide,
+			toggle: toggle
+		};
+
+		function toggle(element) {
+
+			var ele = getModal(element),
+				className = defaults.classForShowingModal;
+
+			if (!ele) {
+				return;
+			}
+
+			if (utils.classes.has(ele, className)) {
+				hide(ele, className);
+			}
+			else {
+				show(ele, className);
 			}
 		}
 
-	};
+		function hide(element) {
 
-	return {
-		show: show,
-		hide: hide,
-		toggle: toggle
-	};
+			var ele = getModal(element),
+				className = defaults.classForShowingModal;
 
-	function toggle(element) {
-
-		var ele = getModal(element),
-			className = defaults.modalShow;
-
-		if (!ele) {
-			return;
-		}
-
-		if (utils.hasClass(ele, className)) {
-			hide(ele, className);
-		}
-		else {
-			show(ele, className);
-		}
-	}
-
-	function hide(element) {
-
-		var ele = getModal(element),
-			className = defaults.modalShow;
-
-		if (!ele) {
-			return;
-		}
-
-		utils.removeClass(ele, className);
-		utils.events.trigger(ele, defaults.events.hide);
-	}
-
-	function show(element) {
-
-		var ele = getModal(element),
-			className = defaults.modalShow;
-
-		if (!ele) {
-			return;
-		}
-
-		// If there is already a modal box showing, close it first
-		if (current) {
-			hide(current, defaults.modalShow);
-		}
-
-		// Update the reference
-		current = ele;
-
-		utils.addClass(ele, className);
-
-		// Close by clicking or any items with data-dismiss as an attribute
-		// TODO: remove [data-dismiss]
-		utils.events.once(ele.querySelectorAll('[data-modal-dismiss], [data-dismiss]'), 'click', function () {
-			hide(ele, className);
-		});
-
-		utils.events.trigger(ele, defaults.events.show);
-	}
-
-	function getModal(element) {
-
-		if (element) {
-
-			if (element.nodeType === 1) {
-				return element;
+			if (!ele) {
+				return;
 			}
 
-			if (typeof element === 'string') {
-				return document.querySelector(element);
-			}
+			utils.classes.remove(ele, className);
+			utils.events.trigger(ele, defaults.events.hide);
+			utils.events.trigger(ele, defaults.events.closed);
 		}
 
-		// Todo: replace this with a very basic layout for a dynamic modal if nothing passed
-		throw new Error('The element is required to create a modal box');
-	}
+		function show(element) {
 
-});
+			var ele = getModal(element),
+				className = defaults.classForShowingModal;
+
+			if (!ele) {
+				return;
+			}
+
+			// If there is already a modal box showing, close it first
+			if (current) {
+				hide(current, defaults.classForShowingModal);
+			}
+
+			// Update the reference
+			current = ele;
+
+			utils.classes.add(ele, className);
+
+			// Close by clicking or any items with data-dismiss as an attribute
+			// TODO: remove [data-dismiss]
+			utils.events.once(ele.querySelectorAll('[data-modal-dismiss], [data-dismiss]'), 'click', function() {
+				hide(ele, className);
+			});
+
+			utils.events.trigger(ele, defaults.events.show);
+			utils.events.trigger(ele, defaults.events.opened);
+		}
+
+		function getModal(element) {
+
+			if (element) {
+
+				if (element.nodeType === 1) {
+					return element;
+				}
+
+				if (typeof element === 'string') {
+					return document.querySelector(element);
+				}
+			}
+
+			// Todo: replace this with a very basic layout for a dynamic modal if nothing passed
+			throw new Error('The element is required to create a modal box');
+		}
+
+	});

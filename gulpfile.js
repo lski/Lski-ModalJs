@@ -1,25 +1,14 @@
 const gulp = require('gulp'),
     uglify = require('gulp-uglify'),
-    jeditor = require("gulp-json-editor"),
     insert = require('gulp-insert'),
     concat = require('gulp-concat'),
     del = require('del'),
     cssnano = require('gulp-cssnano'),
-    settings = {
-        name: 'lski-modal',
-        version: "1.1.2"
-    },
+	settings = require('./package.json')
     insertVersionNo = '/*! ' + settings.name + '-' + settings.version + ' */\n';
 
 gulp.task('clean', (cb) => {
     return del('dist');
-});
-
-gulp.task('version', () => {
-
-    return gulp.src("./*.json")
-        .pipe(jeditor(settings))
-        .pipe(gulp.dest('./'));
 });
 
 gulp.task('js', () => {
@@ -40,6 +29,6 @@ gulp.task('css', () => {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['clean', 'version'], () => {
+gulp.task('default', ['clean'], () => {
     gulp.start('js', 'css');
 });

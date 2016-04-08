@@ -69,6 +69,28 @@ Alternatively you can close the modal in code.
 lski.modal.hide('#myModal');
 ```
 
+## Events 
+
+There are two events fired against the modal element that also bubble so can be caught using event listeners. This is especially useful for when a user dismisses a modal via the `data-modal-dismiss` attribute.
+
+The two events are `lski-modal-opened` and `lski-modal-closed` and are fired after their respected processes. `lski-modal-closed` is especially useful for cleaning up resources.
+
+```html
+<div id="myModal" class="lski-modal lski-modal-fade">
+	<div class="lski-overlay"></div>
+	<div class="lski-modal-box">
+		<!--Place any markup you want in here-->
+	</div>
+</div>
+```
+
+```javscript
+var element = document.getElementById('myModal');
+
+element.addEventListener('lski-modal-closed', function() {
+	console.log('modal closed');
+});
+```
 
 ## Support
 
@@ -80,11 +102,20 @@ lski.modal.hide('#myModal');
 
 ### IE8 and Older Browsers
 
-Its very easy to add support for IE8. Although I have not added it by default to keep the size of the project down especially as support for these older browsers is now much lower. There are simply two things you need to implement to get it to work. First implement EventListeners via a shim and second handle the centralised location of the modal dialog.
+Its easy to add support for IE8, it just requires adding some polyfills and being aware of the browsers limitations. 
+
+I have not included workarounds into code by default as IE8 is only used in a few markets now, so I decided to keep a smaller footprint and test against polyfills instead.
+
+There are simply two things you need to implement to get it to work. First implement EventListeners via a shim and second handle the centralised location of the modal dialog.
 
 #### EventListeners
 
-The dialog uses `addEventListener`, `removeEventListener` and `dispatchEvent` that are not in IE8 natively. There are several shims available to implement them, including one I have included on github: [addEventListener-shim](https://gist.github.com/lski/39c59b03a60e31541cda)
+The dialog uses `addEventListener`, `removeEventListener` and `dispatchEvent` that are not in IE8 natively. There are several shims available to implement them, including one I have included on github: [addEventListener-with-dispatch](https://github.com/lski/addeventlistener-with-dispatch) and is also available on bower and npm too.
+
+```
+bower install addeventlistener-with-dispatch
+npm i addeventlistener-with-dispatch
+```
 
 #### Centralised Modal Box
 
