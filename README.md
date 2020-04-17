@@ -1,6 +1,12 @@
 Lski-Modal
 ============
 
+## Deprecated
+
+__This project has been superceeded by other improvements in frontend development, such as using flexbox directly, or by using React/Angular/Vue. As such it will no longer be maintained.__
+
+----
+
 Creates a centered modal box without and pre-defined styling, beyond the most basic to get it to work. It is built as a standalone item and does NOT require any additional framworks.
 
 ## Installation
